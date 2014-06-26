@@ -13,14 +13,15 @@ import math
 LOOP_MAX_WIDTH = 400*1E-3 #400 microns
 PIXELS_PER_MM_HOR = 320
 
+"""
 def rgb2gray(rgb):
     r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
     gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
     return gray
-
+"""
 def img2float(fn):
-    im = scipy.misc.imread(fn)
-    return rgb2gray(im) 
+    im = scipy.misc.imread(fn, flatten=True)
+    return im #return rgb2gray(im) 
 
 def show_img(img,show=True, save=False, xy=None):
     #if show:
