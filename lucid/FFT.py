@@ -44,7 +44,7 @@ def show_img(img,show=True, save=False, xy=None):
     else:
       print filename
 
-def find_loop(img, debug=False, pixels_per_mm_horizontal=PIXELS_PER_MM_HOR):
+def find_loop(img, debug=False, pixels_per_mm_horizontal=PIXELS_PER_MM_HOR, chi_angle=0):
     if type(img) == types.StringType:
         raw_img = img2float(img)
     else:
@@ -97,9 +97,13 @@ def find_loop(img, debug=False, pixels_per_mm_horizontal=PIXELS_PER_MM_HOR):
     if debug:
         show_img(binimg)
     binimg2 = numpy.zeros_like(binimg)
-    # remove 200 microns from right
     loop_max_width_pixels = LOOP_MAX_WIDTH*pixels_per_mm_horizontal
-    binimg2[min1:max1, max2-loop_max_width_pixels:max2]=binimg[min1:max1, max2-loop_max_width_pixels:max2]
+    if chi_angle == 0:
+      # remove 200 microns from right
+      binimg2[min1:max1, max2-loop_max_width_pixels:max2]=binimg[min1:max1, max2-loop_max_width_pixels:max2]
+    else:
+      # remove 200 micros from top
+      binimg2[max1-loop_max_width_pixels:max1,  min2:max2]=binimg[max1-loop_max_width_pixels:max1,  min2:max2]
     if debug:
         show_img(binimg2)
     
